@@ -1,0 +1,105 @@
+﻿#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    
+}
+
+tr:nth-child(even) {
+    background: #F2F2F2;
+}
+
+tr:nth-child(odd) {
+    background: #FFF;
+}
+
+th, td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+}
+
+table.cart-table  {
+    color: black;
+    max-width: 700px;
+    opacity:0.85;
+}
+
+
+
+
+input[type=text], input[type=email], input[type=number], input[type=datetime-local] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button {
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%
+}
+
+form {
+    border: 1px solid #888;
+    padding: 30px;
+    width:400px
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add_item form{
+
+      margin-top:20px;
+      text-align:left;
+      
+}
+.image-container{
+
+    height:150px
+}
+.image-container img {
+    max-height: 100%
+}
+.update_top{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+
+}
+
+input[type=button] {
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+
+}
+
+.update_top input[type=button] {
+    border: 1px solid #ccc;
+}
