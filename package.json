@@ -1,5 +1,41 @@
 {
   "devDependencies": {
-    "vite": "^5.2.8"
+    "vite": "^5.2.8",
+    "vite-plugin-svgr": "^4.2.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.6",
+    "@babel/eslint-parser": "^7.24.1",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@microsoft/signalr": "^8.0.0",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
+    "@mui/x-data-grid": "^7.3.1",
+    "@popperjs/core": "^2.11.8",
+    "antd": "^5.16.2",
+    "bootstrap": "^5.3.3",
+    "formik": "^2.4.5",
+    "i": "^0.3.7",
+    "jquery": "^3.7.1",
+    "npm": "^10.5.2",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18.2.0",
+    "react-lottie": "^1.2.4",
+    "react-modal": "^3.16.1",
+    "react-pro-sidebar": "^1.1.0",
+    "react-redux": "^9.1.1",
+    "react-router-dom": "^6.22.3",
+    "react-transition-group": "^4.4.5",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
+    "require": "^0.4.4",
+    "swiper": "^11.1.1",
+    "vite-plugin-require": "^1.1.14",
+    "yup": "^1.4.0"
   }
 }

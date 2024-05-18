@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReactApp1.Server.Models;
 using ReactApp1.Server.Services;
 using ReactApp1.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using ReactApp1.Server.Models.Database;
 namespace ReactApp1.Server.Controllers
 {
     [ApiController]

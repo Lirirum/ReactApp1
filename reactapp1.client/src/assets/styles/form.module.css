@@ -1,0 +1,33 @@
+/* styles.module.css */
+
+.formContainer {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .formGroup {
+    margin-bottom: 1em;
+  }
+  
+  .formLabel {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+  
+  .formInput,
+  .formButton {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .formButton {
+    background-color: #196bc9;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }

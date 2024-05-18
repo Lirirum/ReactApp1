@@ -2,9 +2,15 @@ import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
+import svgr from "vite-plugin-svgr";
+
 import fs from 'fs';
 import path from 'path';
 import child_process from 'child_process';
+
+import vitePluginRequire from "vite-plugin-require";
+
+
 
 const baseFolder =
     process.env.APPDATA !== undefined && process.env.APPDATA !== ''
@@ -38,24 +44,26 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [plugin()],
+    plugins: [svgr(), plugin(), vitePluginRequire.default()],
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
+
         }
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7095/',
-                secure: false
-            },
             '^/cart': {
                 target: 'https://localhost:7095/',
                 secure: false,
                 changeOrigin: true,
             }
             ,
+            '^/product': {
+                target: 'https://localhost:7095/',
+                secure: false,         
+               
+            },
             '^/images': {
                 target: 'https://localhost:7095/',
                 secure: false,
@@ -63,7 +71,13 @@ export default defineConfig({
                 headers: {
                  'X-Forwarded-Host': 'localhost:5173',
                 },
-            }
+            
+            },
+            '^/currency': {
+                target: 'https://localhost:7095/',
+                secure: false,
+
+            },
         },
         port: 5173,
         https: {

@@ -1,0 +1,339 @@
+@font-face {
+  font-family: 'Black Ops One';
+  src:  url('../fonts/BlackOpsOne-Regular.ttf') ;
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+li{
+  
+  list-style: none;
+}
+
+a{
+ text-decoration: none;
+ color: currentColor;
+
+}
+
+
+
+.top-box{
+    background:black; 
+    height: 55px;
+    display: flex;
+    align-items: center;
+    width: 100%;   
+  
+  }
+
+
+.header__logo{
+  margin-left: 20px;
+  }
+
+.header__logo a {
+
+  font-size: 26px;
+  font-family: 'Black Ops One';
+}
+
+.header__logo a:hover {
+  text-decoration: none;
+}
+
+.header__logo a {
+  text-decoration: none;
+  color: white;
+}
+
+
+
+.header__nav {
+ 
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 400;
+  height: 14px;
+  justify-content: space-around;
+  letter-spacing: .7px;
+  color: white;
+  
+  
+  }  
+  
+a.header__nav-link{
+  text-decoration: none;
+
+}
+
+
+a.header__nav-link:hover{
+  text-decoration: none;
+
+}
+
+header ul.nav  li{
+    display: inline-block;
+    margin-left: 25px;
+    cursor: pointer;
+    color: #ffffff;
+  }
+
+
+.header__bottom {
+    height: 70px;
+    width: 100%;
+    flex-grow: 2;  
+   
+  }
+  
+.header__bottom-box{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: space-between;
+    
+  }
+.header__bottom-left{
+    align-items: center;
+    display: flex;
+    flex-grow: 2;
+  }
+  
+  .header__bottom-right{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+
+  .tele-icon{
+
+    height: 30px;
+    
+  }
+  .header__phones {
+    align-items: center;
+    color: #252525;
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 30px;
+    margin: 0 auto;
+    max-width: 195px;
+    padding: 5px 0;
+    position: relative;
+}
+
+.header__phones-list {
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  padding: 12px 0;
+  position: absolute;
+  top: 100%;
+  transition: opacity .5s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1000;
+}
+
+
+.header__phones-list li:hover {
+
+  background-color: #f0f0f0;
+  color: #196bc9;
+  
+}
+
+
+.header__phones-list li {  
+
+  padding: 0px  0px 0px 10px;
+  font-size: 16px;
+
+}
+
+
+
+.header__phones-list li.paymant {
+  line-height: 16px;
+}
+
+.header__basket-list{
+    align-items: center;
+    display: flex;
+    
+}
+
+
+.header__phones-paymant{
+
+  color: #999;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: -6px;
+
+  
+ }
+ .header__basket-item svg{
+
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  fill:#196bc9;
+ } 
+
+
+
+ .header__basket-item button {
+
+  fill:#196bc9;
+ } 
+
+ .header__basket-item img{
+
+  height: 30px;
+  fill:#196bc9;
+ } 
+
+ .header__basket-item {
+ 
+
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+
+ 
+ } 
+
+
+ 
+
+ span.header__basket-item_count {
+
+
+
+
+    position: absolute;
+    left: 27px;
+    top: 0;
+  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+   
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #196bc9;
+    box-sizing: border-box;
+
+
+
+ }
+
+
+
+.header_menu{
+   
+    display: flex;   
+    width: 230px; 
+    margin-right: 15px;
+    
+  
+  }
+
+.header__search{
+    width: 100%;
+    max-width: 675px;
+    display: flex;
+    padding-left: 10px;
+    height: 50px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    position: relative;
+  }
+  
+  
+.header__search input{
+     
+    box-sizing: border-box;
+    border: none;
+    color: #999;
+    border-radius: 0;  
+    flex-grow: 1;
+    font-size: 14px;
+    font-weight: 400;
+    height: 100%;
+    width: 100%;
+    padding-left: 41px;
+    padding-right: 10px;
+
+  
+  
+  
+  }
+  
+  .header__search  input:focus {
+    outline: none;
+  }
+
+.btn_search{
+    align-items: center;
+    background-color: #196bc9;
+    background-image: linear-gradient(0deg,#196bc9 0,#196bc9 46%,#009FF9);
+    border: none;  
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    justify-content: center; 
+    position: relative;
+    transition: color .5s,background-color .5s;
+    padding: 16px 32px;
+
+  }
+
+
+ #catalog_btn{
+    align-items: center;
+    background-color: #196bc9;
+    border: none;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    height: 50px;
+    justify-content: center;
+    max-width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    width: 100%;
+    
+  
+  }
