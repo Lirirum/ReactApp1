@@ -1,4 +1,4 @@
-﻿using ReactApp1.Server.Models;
+﻿using ReactApp1.Server.Models.Database;
 
 namespace ReactApp1.Server.Services
 {

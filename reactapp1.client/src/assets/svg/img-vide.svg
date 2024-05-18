@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Шар_1" data-name="Шар 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #00081e;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #00081e;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path class="cls-3" d="m2.4,5.76h16.19c.37,0,.68.3.68.68v7.24c0,.37-.3.68-.68.68H2.4V5.76h0Z"/>
+  <path class="cls-2" d="m2.4,17V3.45c0-.25-.22-.44-.49-.44H.73"/>
+  <g>
+    <circle class="cls-2" cx="14.37" cy="10.11" r="2.36"/>
+    <circle class="cls-1" cx="14.37" cy="10.11" r=".64"/>
+    <circle class="cls-2" cx="7.18" cy="10.11" r="2.36"/>
+    <circle class="cls-1" cx="7.18" cy="10.11" r=".64"/>
+  </g>
+  <path class="cls-2" d="m8.78,14.36h8.59v1.36c0,.18-.15.33-.33.33h-7.93c-.18,0-.33-.15-.33-.33v-1.36h0Z"/>
+  <path class="cls-2" d="m5.24,14.36h1.93v1.36c0,.18-.15.33-.33.33h-1.28c-.18,0-.33-.15-.33-.33v-1.36h0Z"/>
+</svg>
