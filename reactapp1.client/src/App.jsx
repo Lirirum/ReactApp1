@@ -18,6 +18,8 @@ import ProductForm from './pages/form';
 import CurrencyTracker from "./pages/CurrencyTracker.jsx"
 import { store, persistor } from './store';
 
+import Test from './pages/Test.jsx';
+
 const AdminApp = () => {
     const [theme, colorMode] = useMode();
     const [isSidebar, setIsSidebar] = React.useState(true);
@@ -30,9 +32,10 @@ const AdminApp = () => {
                     <SideBar isSidebar={isSidebar} />
                     <main className="admin content">
                         <Topbar setIsSidebar={setIsSidebar} />
-                        <Routes>
-                            <Route path="/productList" element={<Product />} />
-                            <Route path="/" element={<ProductForm />} />
+                        <Routes>                      
+                            <Route path="/" element={<Product />} />
+                            <Route path="/test" element={<Test/>} />
+                            <Route path="/productAdd" element={<ProductForm />} />
                             <Route path="/convector" element={< CurrencyTracker />} />
                         </Routes>
                     </main>
@@ -72,8 +75,8 @@ const App = () => (
                 <CartMenu></CartMenu>
                 <Authorization></Authorization>
                 <Routes>
-                    <Route path="/*" element={<AdminApp />} />
-                <Route path="/client/*" element={<ConnectedClientApp />} />
+                <Route path="/admin/*" element={<AdminApp />} />
+                <Route path="/*" element={<ConnectedClientApp />} />
                 </Routes>
        
         </PersistGate>

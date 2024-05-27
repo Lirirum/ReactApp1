@@ -1,30 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReactApp1.Server.Models.Custom;
 using ReactApp1.Server.Models.Database;
 using ReactApp1.Server.Services;
 
 namespace ReactApp1.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CurrencyController : ControllerBase
     {
-        private readonly ICurrencyService _currencyService;
+        private readonly CurrencyRateProvider _currencyRateProvider;
 
-
-        public CurrencyController(ICurrencyService currencyService)
+        public CurrencyController(CurrencyRateProvider currencyRateProvider)
         {
-            _currencyService = currencyService;
+            _currencyRateProvider = currencyRateProvider;
         }
 
-        [HttpGet("currencies")]
-        public async Task<ActionResult> Get()
+        [HttpGet("rates")]
+        public ActionResult<List<CurrencyRate>> GetCurrencyRates()
         {
-            var result = await  _currencyService.GetCurrency();
-            if (result == null )
+            var rates = _currencyRateProvider.GetCurrencyRates();
+            if (rates == null )
             {
-                return NotFound();
+                return NoContent(); 
             }
-            return Ok(result);
+
+            return Ok(rates);
         }
     }
 }

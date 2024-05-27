@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Models.Custom;
@@ -7,6 +8,7 @@ using ReactApp1.Server.Models.Database;
 using ReactApp1.Server.Models.Form;
 using Serilog;
 using System;
+using System.Data;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Reflection.PortableExecutable;
@@ -27,6 +29,13 @@ namespace ReactApp1.Server.Services
         Task<List<CategoryInfo>> GetProductСategoriesAsync();
 
         Task AddProductAsync(ProductFull product);
+
+        Task RemoveProductAsync(int id);
+
+        Task<bool> UpdateProductAndProductItemAsync(int productItemId, ProductItem updatedProductItem, Product updatedProduct);
+
+        Task<int> ExecuteProcQuantityAsync(int categoryId, float price);
+
     }
 
     public class ProductService : IProductService
@@ -138,7 +147,7 @@ namespace ReactApp1.Server.Services
                                join p_images in _context.ProductImages on p_item.Id equals p_images.ProductItemId                     
                                select new
                                {
-                                   p_item,
+                                   p_item, 
                                    p,                            
                                    v_options,
                                    v,
@@ -250,12 +259,12 @@ namespace ReactApp1.Server.Services
                 Description =product.Description,
               
             };
-            _context.Products.Add(productEntity);
-            await _context.SaveChangesAsync();
-            var id = productEntity.Id;
+                _context.Products.Add(productEntity);
+                await _context.SaveChangesAsync();
+                var id = productEntity.Id;
 
-            var productItemEntity = new ProductItem
-            {
+                var productItemEntity = new ProductItem
+                {
                 ProductId = id,
                 Sku = product.Sku,
                 QtyInStock = product.QtyInStock,
@@ -265,7 +274,95 @@ namespace ReactApp1.Server.Services
             _context.ProductItems.Add(productItemEntity);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task RemoveProductAsync(int id)
+        {
+            var productItem = await _context.ProductItems
+                                  .Include(pi => pi.Product)
+                                  .FirstOrDefaultAsync(pi => pi.Id == id);
+
+            if (productItem != null)
+            {
+
+                var product = productItem.Product;
+                _context.ProductItems.Remove(productItem);
+                bool hasOtherProductItems = await _context.ProductItems.AnyAsync(pi => pi.ProductId == product.Id && pi.Id != id);
+
+
+                if (!hasOtherProductItems && product != null)
+                {
+                    _context.Products.Remove(product);
+                }
+
+
+                await _context.SaveChangesAsync();
+
+            }
+
+        }
+
+        public async Task<int> ExecuteProcQuantityAsync(int categoryId, float price)
+        {
+            var quantityParam = new SqlParameter
+            {
+                ParameterName = "@quantity",
+                SqlDbType = SqlDbType.Int,
+                Direction = ParameterDirection.Output
+            };
+
+            await _context.Database.ExecuteSqlRawAsync(
+                "EXEC [dbo].[myProc1] @category_id = {0}, @price = {1}, @quantity = @quantity OUTPUT",
+                new SqlParameter("@category_id", categoryId),
+                new SqlParameter("@price", price),
+                quantityParam);
+
+            return (int)quantityParam.Value;
+        }
+
+
+        public async Task<bool> UpdateProductAndProductItemAsync(int productItemId, ProductItem updatedProductItem, Product updatedProduct)
+        {
+
+            var sqlProductItemUpdate = "UPDATE product_item SET sku = @Sku, qty_in_stock = @QtyInStock, price = @Price, imageUrl = @ImageUrl WHERE Id = @Id";
+            var sqlProductUpdate = "UPDATE product SET name = @Name, description = @Description  WHERE Id = (SELECT product_id FROM product_item WHERE Id = @ProductItemId)";
+
+            var productItemParams = new[]
+            {
+                new SqlParameter("@Sku", updatedProductItem.Sku),
+                new SqlParameter("@QtyInStock", updatedProductItem.QtyInStock),
+                new SqlParameter("@Price", updatedProductItem.Price),
+                new SqlParameter("@ImageUrl", updatedProductItem.ImageUrl),
+                new SqlParameter("@Id", productItemId)
+            };
+
+            var productParams = new[]
+            {
+                new SqlParameter("@Name", updatedProduct.Name),
+                new SqlParameter("@Description", updatedProduct.Description),    
+                new SqlParameter("@ProductItemId", productItemId)
+            };
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await _context.Database.ExecuteSqlRawAsync(sqlProductItemUpdate, productItemParams);
+                    await _context.Database.ExecuteSqlRawAsync(sqlProductUpdate, productParams);
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
     }
 
 
 }
+
+
+

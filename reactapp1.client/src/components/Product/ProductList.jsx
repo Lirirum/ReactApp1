@@ -23,7 +23,7 @@ const ProductList = () => {
 
     async function getProductListData(quantity) {  
   
-        const response = await fetch(`/product/top/${quantity}`, {
+        const response = await fetch(`/api/product/top/${quantity}`, {
             headers: {
                 Accept: "application/json"
             }
@@ -35,10 +35,8 @@ const ProductList = () => {
             setLoading(false)
         } else {
             console.log( response.status);
-        }
-      
-             
-        
+        }   
+           
     }
     const defaultOptions = {
         loop: true,

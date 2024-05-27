@@ -27,7 +27,7 @@ const Team = () => {
     }, [productList]);
     async function getProductListData(quantity) {
 
-        const response = await fetch(`/product/admin/top/${quantity}`, {
+        const response = await fetch(`/api/product/admin/top/${quantity}`, {
             headers: {
                 Accept: "application/json"
             }

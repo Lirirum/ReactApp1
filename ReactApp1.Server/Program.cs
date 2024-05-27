@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Quartz;
 using ReactApp1.Server;
 using ReactApp1.Server.Data;
 using ReactApp1.Server.Health;
@@ -68,14 +69,28 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IImagesService, ImagesService>();
 builder.Services.AddSingleton<IHealthCheck,DatabaseHealthCheck>();
 builder.Services.AddSingleton<IHealthCheck, ApiHealthCheck>();
+builder.Services.AddSingleton<CurrencyRateProvider>();
 builder.Services.AddHttpClient<CurrencyService>();
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionJobFactory();
+});
+
+// Реєстрація фонової служби
+builder.Services.AddHostedService<QuartzService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddHostedService<WebsiteCheckerService>();
+builder.Services.AddHostedService<DataChangesService>();
+builder.Services.AddHostedService<CurrencyRateService>();
+builder.Services.AddHostedService<NotificationBackgroundService>();
 
 builder.Services.AddDbContext<ShopContext>(options =>
 {
@@ -173,6 +188,7 @@ builder.Services.AddOpenTelemetry()
 var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
 app.UseSerilogRequestLogging();
 app.UseRouting();
 
@@ -205,20 +221,16 @@ if (app.Environment.IsDevelopment())
 
 
     });
-
-    app.UseCors(x => x
-     .AllowAnyMethod()
-     .AllowAnyHeader()
-     .SetIsOriginAllowed(origin => true) 
-     .AllowCredentials()); 
 }
 
 
 
+app.MapFallbackToFile("/index.html");
+app.MapControllers();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+
 
     endpoints.MapHealthChecks("/health", new HealthCheckOptions()
     {
@@ -240,14 +252,14 @@ app.UseEndpoints(endpoints =>
     });
     endpoints.MapHealthChecksUI(options => options.UIPath = "/dashboard-ui");
 
-  
+    endpoints.MapHub<NotificationHub>("/notificationHub");
+
+
 
 });
 
 
 
-
-app.MapFallbackToFile("/index.html");
 
 
 app.Run();

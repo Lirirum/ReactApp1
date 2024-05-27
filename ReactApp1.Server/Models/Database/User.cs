@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ReactApp1.Server.Models;
+namespace ReactApp1.Server.Models.Database;
 
-public partial class User_
+public partial class User
 {
     public int Id { get; set; }
 

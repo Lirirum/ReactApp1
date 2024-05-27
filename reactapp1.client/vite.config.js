@@ -59,7 +59,7 @@ export default defineConfig({
                 changeOrigin: true,
             }
             ,
-            '^/product': {
+            '^/api/product': {
                 target: 'https://localhost:7095/',
                 secure: false,         
                

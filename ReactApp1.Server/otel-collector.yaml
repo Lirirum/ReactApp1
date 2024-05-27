@@ -1,0 +1,16 @@
+﻿exporters:
+  otlp:
+    endpoint: "http://localhost:4317"
+  logging:
+    loglevel: debug
+  otlphttp:
+    endpoint: "http://localhost:5341"  
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [logging, otlphttp]
+    metrics:
+      receivers: [otlp]
+      exporters: [logging, otlphttp]

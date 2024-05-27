@@ -37,6 +37,8 @@ public partial class ShopContext : DbContext
 
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
+    public virtual DbSet<ProductChangesLog> ProductChangesLogs { get; set; }
+
     public virtual DbSet<ProductConfiguration> ProductConfigurations { get; set; }
 
     public virtual DbSet<ProductImage> ProductImages { get; set; }
@@ -128,7 +130,7 @@ public partial class ShopContext : DbContext
 
         modelBuilder.Entity<CartItem>(entity =>
         {
-            entity.ToTable("cart_item");
+            entity.ToTable("cart_item", tb => tb.HasTrigger("upd_cart_item"));
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
@@ -144,11 +146,17 @@ public partial class ShopContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_productList");
 
-            entity.ToTable("product");
+            entity.ToTable("product", tb =>
+                {
+                    tb.HasTrigger("prodcut_log");
+                    tb.HasTrigger("upd_prodcut");
+                });
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CategoryId).HasColumnName("category_id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Description)
+                .HasMaxLength(500)
+                .HasColumnName("description");
             entity.Property(e => e.Name)
                 .HasMaxLength(150)
                 .IsUnicode(false)
@@ -186,6 +194,20 @@ public partial class ShopContext : DbContext
                 .HasConstraintName("FK_product_category_product_category");
         });
 
+        modelBuilder.Entity<ProductChangesLog>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("product_changes_log");
+
+            entity.Property(e => e.OperDateTime).HasColumnName("oper_date_time");
+            entity.Property(e => e.OperType)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("oper_type");
+            entity.Property(e => e.RowsQuantity).HasColumnName("rows_quantity");
+        });
+
         modelBuilder.Entity<ProductConfiguration>(entity =>
         {
             entity
@@ -197,7 +219,6 @@ public partial class ShopContext : DbContext
 
             entity.HasOne(d => d.ProductItem).WithMany()
                 .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_product_configuration_product_item");
 
             entity.HasOne(d => d.VariationOption).WithMany()
@@ -220,19 +241,23 @@ public partial class ShopContext : DbContext
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_product_images_product_item");
         });
 
         modelBuilder.Entity<ProductItem>(entity =>
         {
-            entity.ToTable("product_item");
+            entity.ToTable("product_item", tb =>
+                {
+                    tb.HasTrigger("del_product_item");
+                    tb.HasTrigger("product_item_insert");
+                });
 
             entity.HasIndex(e => e.Sku, "IX_product_item").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(100)
+                .HasDefaultValue("default.webp")
                 .HasColumnName("imageUrl");
             entity.Property(e => e.Price)
                 .HasDefaultValue(0.0)

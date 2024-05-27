@@ -15,7 +15,7 @@ namespace ReactApp1.Server.Health
             using (var httpClient = _httpClientFactory.CreateClient())
             {
                 var response = await
-                httpClient.GetAsync("http://localhost:5172/product/category/5");
+                httpClient.GetAsync("http://localhost:5172/api/product/category/5");
                 if (response.IsSuccessStatusCode)
                 {
                     return await Task.FromResult(new HealthCheckResult(

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.128-alpha">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.128-alpha">
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>
     <JavaScriptTestRoot>src\</JavaScriptTestRoot>
@@ -17,5 +17,8 @@
     <Folder Include="src\pages\product\" />
     <Folder Include="src\pages\form\" />
     <Folder Include="src\store\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".vscode\launch.json" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReactApp1.Server.Models.Custom;
 using ReactApp1.Server.Models.Database;
@@ -9,9 +10,9 @@ using Serilog;
 namespace ReactApp1.Server.Controllers
 {
 
-    [Authorize]
+    
     [ApiController]
-    [Route("[controller]")]    
+    [Route("api/[controller]")]    
     public class ProductController: ControllerBase
     {
 
@@ -62,6 +63,7 @@ namespace ReactApp1.Server.Controllers
             }
             return Ok(result);
         }
+
         [HttpGet("top/{quantity:int}")]
         public async Task<ActionResult<List<ProductInfo>>> GetTopProducts(int quantity)
         {
@@ -117,6 +119,57 @@ namespace ReactApp1.Server.Controllers
         {
             await _productService.AddProductAsync(product);
             return Ok();
+        }
+
+        [HttpDelete("remove/{id}")]
+        public async Task<ActionResult> RemoveProduct(int id)
+        {
+            try
+            {
+                await _productService.RemoveProductAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while deleting the ProductItem and Product.", Error = ex.Message });
+            }
+        }
+
+        [HttpGet("quantity")]
+        public async Task<int> GetProductQuantityAsync(int categoryId, float price)
+        {
+            return await _productService.ExecuteProcQuantityAsync(categoryId, price);
+        }
+
+
+        [HttpPut("update")]
+        public async Task<ActionResult> UpdateProductItemAndProduct(ProductUpdate productInfo)
+        {
+            ProductItem productItem = new ProductItem { 
+                ProductId=productInfo.ProductItemId,
+                Price=  productInfo.Price,
+                ImageUrl= productInfo.ImageUrl,
+                QtyInStock=productInfo.QtyInStock,
+                Sku= productInfo.Sku,
+            };
+
+            Product product = new Product
+            {
+                Id=productInfo.ProductId,
+                CategoryId=productInfo.CategoryId,
+                Description= productInfo.Description,
+                Name= productInfo.Name,
+            };
+
+            try
+            {
+                await _productService.UpdateProductAndProductItemAsync(productInfo.ProductItemId, productItem, product);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while updating the ProductItem and Product.", Error = ex.Message });
+            }
         }
     }
 }
